@@ -7,19 +7,29 @@ while True:
         case "add":
             todo = input("Enter a todo :") + "\n"
                                                          ##This part will avoid overwriting in todos.txt
-            file = open("todos.txt", "r")
-            todos = file.readlines()
-            file.close()
+            #file = open("todos.txt", "r")
+            #todos = file.readlines()
+            #file.close()
+
+            with open("todos.txt" , "r") as file:        # This will do the same as line 10-12
+                todos = file.readlines()
 
             todos.append(todo)
 
-            file = open("todos.txt" , "w")
-            file.writelines(todos)
-            file.close()
+            #file = open("todos.txt" , "w")
+            #file.writelines(todos)
+            #file.close()
+
+            with open("todos.txt" , "w") as file:
+                file.writelines(todos)
+
         case "show" :
-            file = open("todos.txt" , "r")               #This will show the file content before we run add commanddsa
-            todos = file.readlines()
-            file.close()
+            #file = open("todos.txt" , "r")               #This will show the file content before we run add commanddsa
+            #todos = file.readlines()
+            #file.close()
+
+            with open("todos.txt" , "r") as file:
+                todos = file.readlines()
 
             ##new_todo = []                                #Here We want to remove the emptly line between each printed item
 
@@ -37,24 +47,33 @@ while True:
         case "edit":
             number = int(input("Enter a number to edit :"))
             number = number - 1
-            new_todo = input("Enter a new todo : ")
-            file = open("todos.txt" , "r")
-            todos = file.readlines()
-            file.close()
-            todos[number] = new_todo
-            file = open("todos.txt" , "w")
-            file.writelines(todos)
-            file.close()
+
+            with open("todos.txt" , "r") as file:
+                todos = file.readlines()
+
+            new_todo = input('Enter a new todo : ')
+            todos[number] = new_todo + '\n'
+
+            with open("todos.txt" , "w") as file:
+                file.writelines(todos)
+
         case "complete" :
-            user_action = int(input("Enter Item you want to delete:"))
-            todos.pop(user_action-1)
-            file = open("todos.txt" , "w")
-            file.writelines(todos)
-            file.close()
-            file = open("todos.txt" , "r")
-            todos = file.readlines()
-            file.close()
-            print("Done")
+            number = int(input("Enter a number to complete :"))
+
+            with open("todos.txt" , "r") as file:
+                todos = file.readlines()
+
+            index = number -1
+            todo_to_temove = todos[index].strip('\n')
+            todos.pop(number - 1)
+
+            with open("todos.txt" , "w") as file:
+                file.writelines(todos)
+
+            message = f"Task {todo_to_temove} has been completed."
+
+            print(message)
+
         case "exit":
             break
 
